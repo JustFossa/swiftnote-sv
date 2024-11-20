@@ -13,7 +13,11 @@ app.use(
     hidePoweredBy: true,
   }),
 );
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  }),
+);
 app.use(express.json());
 app.use("/api/v1", routes);
 
