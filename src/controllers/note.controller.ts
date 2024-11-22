@@ -24,10 +24,18 @@ export const getNote = async (req: Request, res: Response) => {
       .json(new ResponseHandler(false, 404, "Note not found"));
   }
 
+  if (note.deleted) {
+    return res
+      .status(403)
+      .json(new ResponseHandler(false, 403, "Note has already been viewed"));
+  }
   await prisma.note
-    .delete({
+    .update({
       where: {
         id,
+      },
+      data: {
+        deleted: true,
       },
     })
     .catch((err) => {
